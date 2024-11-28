@@ -41,9 +41,9 @@ struct FilmsListView: View {
                 .fullScreenCover(isPresented: $isExploreSheetPresented) {
                     ExploreView()
                 }
-//                .fullScreenCover(isPresented: $isMyListSheetPresented) {
-//                    MyListView()
-//                }
+                .fullScreenCover(isPresented: $isMyListSheetPresented) {
+                    MyListView()
+                }
             }
             .searchable(text: $searchText)
             .onAppear {
