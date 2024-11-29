@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
+import SwiftData
 
 struct FilmDetailView: View {
     let film: Film
-//    @Environment(\.modelContext) var modelContext
+    @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
     
     var body: some View {
@@ -41,7 +42,7 @@ struct FilmDetailView: View {
                 .toolbar {
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
-//                            addToMyList()
+                            addToMyList()
                         } label: {
                             Image(systemName: "plus")
                             Text("Add to My List")
@@ -52,17 +53,17 @@ struct FilmDetailView: View {
         }
     }
     
-//    func addToMyList() {
-//        let myListItem = MyList(original_title: film.original_title, overview: film.overview, poster_path: film.poster_path ?? "", backdrop_path: film.backdrop_path ?? "", original_language: film.release_date, release_date: film.original_language, reviews: "")
-//        
-//        modelContext.insert(myListItem)
-//        
-//        guard let _ = try? modelContext.save() else {
-//            print("ERROR: Save did not work.")
-//            return
-//        }
-//        dismiss()
-//    }
+    func addToMyList() {
+        let myListItem = MyList(original_title: film.original_title, overview: film.overview, poster_path: film.poster_path ?? "", backdrop_path: film.backdrop_path ?? "", original_language: film.release_date, release_date: film.original_language, reviews: "")
+        
+        modelContext.insert(myListItem)
+        
+        guard let _ = try? modelContext.save() else {
+            print("ERROR: Save did not work.")
+            return
+        }
+        dismiss()
+    }
 }
 
 #Preview {

@@ -81,7 +81,6 @@ struct SortedMyListView: View {
 }
 
 struct MyListView: View {
-    @State private var sheetIsPresented = false
     @State private var statusSelection: Status = .all
     
     var body: some View {

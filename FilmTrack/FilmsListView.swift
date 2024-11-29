@@ -68,4 +68,5 @@ struct FilmsListView: View {
 
 #Preview {
     FilmsListView()
+        .modelContainer(MyList.preview)
 }
