@@ -7,8 +7,7 @@
 
 import Foundation
 
-struct Film: Codable, Hashable/*, Identifiable*/ {
-//    @DocumentID var id: String?
+struct Film: Codable, Hashable {
     var original_title: String
     var overview: String
     var poster_path: String?
