@@ -9,16 +9,17 @@ import SwiftUI
 
 struct MyListDetailView: View {
     let myListItem: MyList
-    let lineLimit = 3
+    //    let lineLimit = 3
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
     @State private var reviews = ""
     @State var thumbsUp = false
     @State var thumbsDown = false
-    @State private var showEntireContent: Bool = false
+    //    @State private var showEntireContent: Bool = false
     
     var body: some View {
-        List {
+        NavigationStack {
+            List {
                 Group{
                     Text(myListItem.original_title)
                         .font(.largeTitle)
@@ -43,19 +44,19 @@ struct MyListDetailView: View {
                 Spacer()
                 
                 Text(myListItem.overview)
-                    .lineLimit(showEntireContent ? nil : lineLimit)
+                //                    .lineLimit(showEntireContent ? nil : lineLimit)
                     .listRowSeparator(.hidden)
                 
-                if !showEntireContent {
-                    Button {
-                        withAnimation {
-                            showEntireContent = true
-                        }
-                    } label: {
-                        Text("Expand description")
-                            .foregroundStyle(.blue)
-                    }
-                }
+                //                if !showEntireContent {
+                //                    Button {
+                //                        withAnimation {
+                //                            showEntireContent = true
+                //                        }
+                //                    } label: {
+                //                        Text("Expand description")
+                //                            .foregroundStyle(.blue)
+                //                    }
+                //                }
                 
                 Spacer()
                 
@@ -69,8 +70,12 @@ struct MyListDetailView: View {
                 
                 HStack {
                     Button {
-                        thumbsDown = true
-                        thumbsUp = false
+                        if thumbsDown {
+                            thumbsDown = false
+                        } else {
+                            thumbsDown = true
+                            thumbsUp = false
+                        }
                         print("Thumbs Down")
                     } label: {
                         Image(systemName: "hand.thumbsdown.fill")
@@ -81,8 +86,12 @@ struct MyListDetailView: View {
                     Spacer()
                     
                     Button {
-                        thumbsUp = true
-                        thumbsDown = false
+                        if thumbsUp {
+                            thumbsUp = false
+                        } else {
+                            thumbsUp = true
+                            thumbsDown = false
+                        }
                         print("Thumbs Up")
                     } label: {
                         Image(systemName: "hand.thumbsup.fill")
@@ -90,44 +99,47 @@ struct MyListDetailView: View {
                             .foregroundStyle(thumbsUp ? .green : .gray)
                     }
                 }
-            
-            .listStyle(.plain)
-            .onAppear() {
-                reviews = myListItem.reviews
-                thumbsUp = myListItem.thumbsUp
-                thumbsDown = myListItem.thumbsDown
-            }
-            .toolbar {
-                ToolbarItem(placement: .topBarLeading) {
-                    Button("Back") {
-                        dismiss()
-                    }
-                }
                 
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button {
-                        myListItem.reviews = reviews
-                        myListItem.thumbsUp = thumbsUp
-                        myListItem.thumbsDown = thumbsDown
-                        
-                        guard let _ = try? modelContext.save() else {
-                            print("ERROR: Save did not work.")
-                            return
+                .listStyle(.plain)
+                .onAppear() {
+                    reviews = myListItem.reviews
+                    thumbsUp = myListItem.thumbsUp
+                    thumbsDown = myListItem.thumbsDown
+                }
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button("Back") {
+                            dismiss()
                         }
-                        dismiss()
-                    } label: {
-                        Text("Save")
                     }
                     
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            myListItem.reviews = reviews
+                            myListItem.thumbsUp = thumbsUp
+                            myListItem.thumbsDown = thumbsDown
+                            
+                            guard let _ = try? modelContext.save() else {
+                                print("ERROR: Save did not work.")
+                                return
+                            }
+                            dismiss()
+                        } label: {
+                            Text("Save")
+                        }
+                        
+                    }
                 }
+                .navigationBarBackButtonHidden()
             }
-            .navigationBarBackButtonHidden()
+            .listStyle(.plain)
+            .padding(.horizontal)
         }
-        .listStyle(.plain)
-        .padding(.horizontal)
     }
 }
 
 #Preview {
-    MyListDetailView(myListItem: MyList(original_title: "", overview: "", poster_path: "", backdrop_path: "", original_language: "", release_date: "", reviews: "", thumbsUp: false, thumbsDown: false))
+    NavigationStack {
+        MyListDetailView(myListItem: MyList(original_title: "", overview: "", poster_path: "", backdrop_path: "", original_language: "", release_date: "", reviews: "", thumbsUp: false, thumbsDown: false))
+    }
 }
