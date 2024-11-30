@@ -70,12 +70,8 @@ struct MyListDetailView: View {
                 
                 HStack {
                     Button {
-                        if thumbsDown {
-                            thumbsDown = false
-                        } else {
-                            thumbsDown = true
-                            thumbsUp = false
-                        }
+                        thumbsDown = true
+                        thumbsUp = false
                         print("Thumbs Down")
                     } label: {
                         Image(systemName: "hand.thumbsdown.fill")
@@ -86,13 +82,8 @@ struct MyListDetailView: View {
                     Spacer()
                     
                     Button {
-                        if thumbsUp {
-                            thumbsUp = false
-                        } else {
-                            thumbsUp = true
-                            thumbsDown = false
-                        }
-                        print("Thumbs Up")
+                        thumbsUp = true
+                        thumbsDown = false
                     } label: {
                         Image(systemName: "hand.thumbsup.fill")
                             .font(.system(size: 50))

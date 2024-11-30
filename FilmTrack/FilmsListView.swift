@@ -7,6 +7,7 @@
 
 import SwiftUI
 import FirebaseAuth
+import Translation
 
 struct FilmsListView: View {
     @State var films = Films()
@@ -14,10 +15,37 @@ struct FilmsListView: View {
     @State private var isExploreSheetPresented = false
     @State private var isMyListSheetPresented = false
     @Environment(\.dismiss) var dismiss
+    @State private var selectedFilm: Film? = nil
+    @State private var translatedTitle = ""
+    @FocusState private var isFocused: Bool
     
     var body: some View {
-        VStack {
-            NavigationStack {
+        
+        NavigationStack {
+            VStack {
+                Text("Search Films")
+                
+                HStack {
+                    TextField("Enter title...", text: $searchText)
+                        .textFieldStyle(RoundedBorderTextFieldStyle())
+                        .padding(.leading, 10)
+                        .frame(height: 40)
+                        .focused($isFocused)
+                    
+                    
+                    Button("Search") {
+                        // Call the API when the search button is pressed
+                        Task {
+                            await films.getData(for: searchText)
+                        }
+                        isFocused = false
+                    }
+                    .buttonStyle(.bordered)
+                    .padding(.trailing, 10)
+                    .frame(height: 40)
+                }
+                .padding()
+                
                 List(films.filmsArray, id: \.self) {film in
                     NavigationLink {
                         FilmDetailView(film: film)
@@ -26,19 +54,26 @@ struct FilmsListView: View {
                             Text(film.original_title)
                                 .font(.title2)
                                 .multilineTextAlignment(.center)
+                                .onTapGesture {
+                                    selectedFilm = film
+                                }
+                                .translationPresentation(
+                                    isPresented: .constant(selectedFilm == film),
+                                    text: film.original_title,
+                                    attachmentAnchor: .point(.top),
+                                    arrowEdge: .bottom
+                                ) { translatedText in
+                                    translatedTitle = translatedText
+                                    print("Translated text: \(translatedText)")
+                                }
                             
                             Spacer().frame(height: 10)
                             
                         }
-                        .frame(maxWidth: .infinity, alignment: .center)
+//                        .frame(maxWidth: .infinity, alignment: .center)
                     }
                 }
                 .listStyle(.plain)
-                .onChange(of: searchText) {
-                    Task {
-                        await films.getData(for: searchText)
-                    }
-                }
                 .navigationTitle("Search Films")
                 .fullScreenCover(isPresented: $isExploreSheetPresented) {
                     ExploreView()
@@ -59,25 +94,26 @@ struct FilmsListView: View {
                         }
                     }
                 }
-            }
-            .searchable(text: $searchText)
-            .onAppear {
-                Task {
-                    await films.getData(for: "")
-                }
-            }
-            
-            HStack {
-                Button("Explore Popular Films") {
-                    isExploreSheetPresented.toggle()
-                }
                 
                 
-                Button("My List") {
-                    isMyListSheetPresented.toggle()
+                .onAppear {
+                    Task {
+                        await films.getData(for: "")
+                    }
                 }
-            }
-            .buttonStyle(.borderedProminent)        }
+                
+                HStack {
+                    Button("Explore Popular Films") {
+                        isExploreSheetPresented.toggle()
+                    }
+                    
+                    
+                    Button("My List") {
+                        isMyListSheetPresented.toggle()
+                    }
+                }
+                .buttonStyle(.borderedProminent)        }
+        }
     }
 }
 
