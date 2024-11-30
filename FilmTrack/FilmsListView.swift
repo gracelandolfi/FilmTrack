@@ -18,13 +18,17 @@ struct FilmsListView: View {
     @State private var selectedFilm: Film? = nil
     @State private var translatedTitle = ""
     @FocusState private var isFocused: Bool
+    @State private var showTranslationMessage = false
     
     var body: some View {
-        
         NavigationStack {
             VStack {
-                Text("Search Films")
-                
+                if showTranslationMessage {
+                    HStack {
+                        Image(systemName: "questionmark.circle")
+                        Text("CLICK FILM TITLE TO TRANSLATE")
+                    }
+                }
                 HStack {
                     TextField("Enter title...", text: $searchText)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
@@ -34,7 +38,6 @@ struct FilmsListView: View {
                     
                     
                     Button("Search") {
-                        // Call the API when the search button is pressed
                         Task {
                             await films.getData(for: searchText)
                         }
@@ -70,7 +73,7 @@ struct FilmsListView: View {
                             Spacer().frame(height: 10)
                             
                         }
-//                        .frame(maxWidth: .infinity, alignment: .center)
+                        .frame(maxWidth: .infinity, alignment: .center)
                     }
                 }
                 .listStyle(.plain)
@@ -93,6 +96,16 @@ struct FilmsListView: View {
                             }
                         }
                     }
+                    
+                    ToolbarItem(placement: .topBarTrailing) {
+                        Button {
+                            showTranslationMessage.toggle()
+                        } label: {
+                            Image(systemName: "questionmark.circle")
+                            Text("Translate")
+                        }
+                    }
+                    
                 }
                 
                 
@@ -101,6 +114,8 @@ struct FilmsListView: View {
                         await films.getData(for: "")
                     }
                 }
+                
+                
                 
                 HStack {
                     Button("Explore Popular Films") {
