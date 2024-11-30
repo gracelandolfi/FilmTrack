@@ -19,7 +19,6 @@ struct MyListDetailView: View {
     
     var body: some View {
         List {
-            VStack {
                 Group{
                     Text(myListItem.original_title)
                         .font(.largeTitle)
@@ -91,7 +90,7 @@ struct MyListDetailView: View {
                             .foregroundStyle(thumbsUp ? .green : .gray)
                     }
                 }
-            }
+            
             .listStyle(.plain)
             .onAppear() {
                 reviews = myListItem.reviews
@@ -130,5 +129,5 @@ struct MyListDetailView: View {
 }
 
 #Preview {
-    MyListDetailView(myListItem: MyList(original_title: "", overview: "", poster_path: "", backdrop_path: "", original_language: "", release_date: ""))
+    MyListDetailView(myListItem: MyList(original_title: "", overview: "", poster_path: "", backdrop_path: "", original_language: "", release_date: "", reviews: "", thumbsUp: false, thumbsDown: false))
 }

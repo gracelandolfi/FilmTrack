@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct FilmsListView: View {
     @State var films = Films()
     @State var searchText = ""
     @State private var isExploreSheetPresented = false
     @State private var isMyListSheetPresented = false
+    @Environment(\.dismiss) var dismiss
     
     var body: some View {
         VStack {
@@ -43,6 +45,19 @@ struct FilmsListView: View {
                 }
                 .fullScreenCover(isPresented: $isMyListSheetPresented) {
                     MyListView()
+                }
+                .toolbar {
+                    ToolbarItem(placement: .topBarLeading) {
+                        Button("Sign Out") {
+                            do {
+                                try Auth.auth().signOut()
+                                print("Log out successful!")
+                                dismiss()
+                            } catch {
+                                print("ERROR: Could not sign out!")
+                            }
+                        }
+                    }
                 }
             }
             .searchable(text: $searchText)
