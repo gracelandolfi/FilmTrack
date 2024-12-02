@@ -13,11 +13,31 @@ struct MyListDetailView: View {
     @Environment(\.modelContext) var modelContext
     @Environment(\.dismiss) var dismiss
     @State private var reviews = ""
-    @State var thumbsUp = false
-    @State var thumbsDown = false
+    @State var thumbsUp: Bool = false
+    @State var thumbsDown: Bool = false
     //    @State private var showEntireContent: Bool = false
     
     var body: some View {
+        HStack {
+            
+            Spacer()
+            
+            Button {
+                myListItem.reviews = reviews
+                myListItem.thumbsUp = thumbsUp
+                myListItem.thumbsDown = thumbsDown
+                
+                guard let _ = try? modelContext.save() else {
+                    print("ERROR: Save did not work.")
+                    return
+                }
+                dismiss()
+            } label: {
+                Text("Save")
+            }
+            .padding(.horizontal)
+        }
+        
         NavigationStack {
             List {
                 Group{
@@ -68,28 +88,7 @@ struct MyListDetailView: View {
                 
                 Spacer()
                 
-                HStack {
-                    Button {
-                        thumbsDown = true
-                        thumbsUp = false
-                        print("Thumbs Down")
-                    } label: {
-                        Image(systemName: "hand.thumbsdown.fill")
-                            .font(.system(size: 50))
-                            .foregroundStyle(thumbsDown ? .red : .gray)
-                    }
-                    
-                    Spacer()
-                    
-                    Button {
-                        thumbsUp = true
-                        thumbsDown = false
-                    } label: {
-                        Image(systemName: "hand.thumbsup.fill")
-                            .font(.system(size: 50))
-                            .foregroundStyle(thumbsUp ? .green : .gray)
-                    }
-                }
+                
                 
                 .listStyle(.plain)
                 .onAppear() {
@@ -104,28 +103,50 @@ struct MyListDetailView: View {
                         }
                     }
                     
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            myListItem.reviews = reviews
-                            myListItem.thumbsUp = thumbsUp
-                            myListItem.thumbsDown = thumbsDown
-                            
-                            guard let _ = try? modelContext.save() else {
-                                print("ERROR: Save did not work.")
-                                return
-                            }
-                            dismiss()
-                        } label: {
-                            Text("Save")
-                        }
-                        
-                    }
+//                    ToolbarItem(placement: .topBarTrailing) {
+//                        Button {
+//                            myListItem.reviews = reviews
+//                            myListItem.thumbsUp = thumbsUp
+//                            myListItem.thumbsDown = thumbsDown
+//                            
+//                            guard let _ = try? modelContext.save() else {
+//                                print("ERROR: Save did not work.")
+//                                return
+//                            }
+//                            dismiss()
+//                        } label: {
+//                            Text("Save")
+//                        }
+//                        
+//                    }
                 }
-                .navigationBarBackButtonHidden()
             }
             .listStyle(.plain)
             .padding(.horizontal)
+            .navigationBarBackButtonHidden()
         }
+        HStack {
+            Button {
+                thumbsDown = true
+                thumbsUp = false
+            } label: {
+                Image(systemName: "hand.thumbsdown.fill")
+                    .font(.system(size: 50))
+                    .foregroundStyle(thumbsDown ? .red : .gray)
+            }
+            
+            Spacer()
+            
+            Button {
+                thumbsUp = true
+                thumbsDown = false
+            } label: {
+                Image(systemName: "hand.thumbsup.fill")
+                    .font(.system(size: 50))
+                    .foregroundStyle(thumbsUp ? .green : .gray)
+            }
+        }
+        .padding()
     }
 }
 

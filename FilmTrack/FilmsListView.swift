@@ -62,13 +62,11 @@ struct FilmsListView: View {
                                 }
                                 .translationPresentation(
                                     isPresented: .constant(selectedFilm == film),
-                                    text: film.original_title,
-                                    attachmentAnchor: .point(.top),
-                                    arrowEdge: .bottom
-                                ) { translatedText in
-                                    translatedTitle = translatedText
-                                    print("Translated text: \(translatedText)")
-                                }
+                                    text: film.original_title)
+//                                ) { translatedText in
+//                                    translatedTitle = translatedText
+//                                    print("Translated text: \(translatedText)")
+//                                }
                             
                             Spacer().frame(height: 10)
                             
@@ -129,6 +127,7 @@ struct FilmsListView: View {
                 }
                 .buttonStyle(.borderedProminent)        }
         }
+        .autocorrectionDisabled()
     }
 }
 
