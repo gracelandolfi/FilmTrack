@@ -20,6 +20,8 @@ struct FilmsListView: View {
     @FocusState private var isFocused: Bool
     @State private var showTranslationMessage = false
     
+    @State private var searchTask: Task<Void, Never>? = nil
+    
     var body: some View {
         NavigationStack {
             VStack {
@@ -27,27 +29,37 @@ struct FilmsListView: View {
                     HStack {
                         Image(systemName: "questionmark.circle")
                         Text("CLICK FILM TITLE TO TRANSLATE")
+                            .font(.custom("BebasNeue", size: 15))
                     }
+                    .transition(.opacity)
                 }
                 HStack {
                     TextField("Enter title...", text: $searchText)
+                        .font(.custom("BebasNeue", size: 20))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.leading, 10)
-                        .frame(height: 40)
+                        .padding(.horizontal)
+                        .frame(height: 10)
                         .focused($isFocused)
-                    
-                    
-                    Button("Search") {
-                        Task {
-                            await films.getData(for: searchText)
+                        .onChange(of: searchText) { oldValue, newValue in
+                            searchTask?.cancel()
+                            searchTask = Task {
+                                do {
+                                    try await Task.sleep(for: .milliseconds(300))
+                                    
+                                    if Task.isCancelled { return }
+                                    
+                                    if searchText == newValue {
+                                        await films.getData(for: newValue)
+                                    }
+                                } catch {
+                                    if !Task.isCancelled {
+                                        print("ERROR: \(error.localizedDescription)")
+                                    }
+                                }
+                            }
                         }
-                        isFocused = false
-                    }
-                    .buttonStyle(.bordered)
-                    .padding(.trailing, 10)
-                    .frame(height: 40)
                 }
-                .padding()
+                
                 
                 List(films.filmsArray, id: \.self) {film in
                     NavigationLink {
@@ -55,7 +67,7 @@ struct FilmsListView: View {
                     } label: {
                         VStack {
                             Text(film.original_title)
-                                .font(.title2)
+                                .font(.custom("BebasNeue", size: 20))
                                 .multilineTextAlignment(.center)
                                 .onTapGesture {
                                     selectedFilm = film
@@ -63,10 +75,6 @@ struct FilmsListView: View {
                                 .translationPresentation(
                                     isPresented: .constant(selectedFilm == film),
                                     text: film.original_title)
-//                                ) { translatedText in
-//                                    translatedTitle = translatedText
-//                                    print("Translated text: \(translatedText)")
-//                                }
                             
                             Spacer().frame(height: 10)
                             
@@ -75,7 +83,7 @@ struct FilmsListView: View {
                     }
                 }
                 .listStyle(.plain)
-                .navigationTitle("Search Films")
+                //                .navigationTitle("Search Films")
                 .fullScreenCover(isPresented: $isExploreSheetPresented) {
                     ExploreView()
                 }
@@ -83,6 +91,12 @@ struct FilmsListView: View {
                     MyListView()
                 }
                 .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        Text("Search Films")
+                            .font(.custom("BebasNeue", size: 50))
+                            .foregroundStyle(.red)
+                    }
+                    
                     ToolbarItem(placement: .topBarLeading) {
                         Button("Sign Out") {
                             do {
@@ -93,15 +107,21 @@ struct FilmsListView: View {
                                 print("ERROR: Could not sign out!")
                             }
                         }
+                        .foregroundStyle(.red)
                     }
                     
                     ToolbarItem(placement: .topBarTrailing) {
                         Button {
                             showTranslationMessage.toggle()
+                            
+                            Task {
+                                try await Task.sleep(nanoseconds: 3 * 1_000_000_000)
+                                showTranslationMessage = false
+                            }
                         } label: {
-                            Image(systemName: "questionmark.circle")
                             Text("Translate")
                         }
+                        .foregroundStyle(.red)
                     }
                     
                 }
@@ -120,14 +140,16 @@ struct FilmsListView: View {
                         isExploreSheetPresented.toggle()
                     }
                     
-                    
                     Button("My List") {
                         isMyListSheetPresented.toggle()
                     }
                 }
-                .buttonStyle(.borderedProminent)        }
+                .buttonStyle(.bordered)
+                .foregroundStyle(.red)
+            }
         }
         .autocorrectionDisabled()
+        .font(.custom("BebasNeue", size: 20))
     }
 }
 

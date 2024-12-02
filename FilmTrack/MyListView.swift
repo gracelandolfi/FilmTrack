@@ -43,6 +43,8 @@ struct SortedMyListView: View {
                         } label: {
                             HStack {
                                 Text(film.original_title)
+                                    .font(.custom("BebasNeue", size: 20)).opacity(0.75)
+                                    
                                 
                                 Spacer()
                                 
@@ -74,6 +76,7 @@ struct SortedMyListView: View {
                     Button("Film Search") {
                         dismiss()
                     }
+                    .foregroundStyle(.red)
                 }
             }
         }
@@ -86,8 +89,13 @@ struct MyListView: View {
     var body: some View {
         NavigationStack {
             SortedMyListView(statusSelection: statusSelection)
-                .navigationTitle("My List")
                 .toolbar {
+                    ToolbarItem(placement: .principal) {
+                        Text("My Films")
+                            .font(.custom("BebasNeue", size: 50))
+                            .foregroundStyle(.red)
+                    }
+                    
                     ToolbarItem(placement: .bottomBar) {
                         Picker("", selection: $statusSelection) {
                             Text("All Films")
@@ -95,11 +103,9 @@ struct MyListView: View {
                             
                             Image(systemName: "hand.thumbsup.fill")
                                 .tag(Status.thumbsUp)
-                                .foregroundStyle(.green)
                             
                             Image(systemName: "hand.thumbsdown.fill")
                                 .tag(Status.thumbsDown)
-                                .foregroundStyle(.red)
                         }
                         .pickerStyle(.segmented)
                     }

@@ -20,7 +20,7 @@ struct ExploreView: View {
                 } label: {
                     VStack {
                         Text(film.original_title)
-                            .font(.title2)
+                            .font(.custom("BebasNeue", size: 20))
                             .multilineTextAlignment(.center)
                         
                         Spacer().frame(height: 10)
@@ -33,25 +33,32 @@ struct ExploreView: View {
                     await topRatedFilms.getData(for: 1)
                 }
             }
+            
             .listStyle(.plain)
-            .navigationTitle("Explore Popular Films")
             .toolbar {
+                ToolbarItem(placement: .principal) {
+                    Text("Explore Popular Films")
+                        .font(.custom("BebasNeue", size: 30))
+                        .foregroundStyle(.red)
+                }
+                
                 ToolbarItem(placement: .bottomBar) {
                     Button("Load All Popular Films") {
                         Task {
                             await topRatedFilms.loadAll()
                         }
                     }
+                    .foregroundStyle(.red)
                 }
                 
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Film Search") {
+                    Button("Back") {
                         dismiss()
                     }
+                    .foregroundStyle(.red)
                 }
             }
         }
-        
     }
 
 }

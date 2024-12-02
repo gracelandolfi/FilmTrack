@@ -15,7 +15,6 @@ struct MyListDetailView: View {
     @State private var reviews = ""
     @State var thumbsUp: Bool = false
     @State var thumbsDown: Bool = false
-    //    @State private var showEntireContent: Bool = false
     
     var body: some View {
         HStack {
@@ -36,17 +35,21 @@ struct MyListDetailView: View {
                 Text("Save")
             }
             .padding(.horizontal)
+            .foregroundStyle(.red)
         }
         
         NavigationStack {
             List {
                 Group{
                     Text(myListItem.original_title)
-                        .font(.largeTitle)
+                        .font(.custom("BebasNeue", size: 50))
                         .bold()
                         .minimumScaleFactor(0.5)
+                        .foregroundStyle(.red)
                     
                     Text(myListItem.release_date)
+                        .font(.custom("BebasNeue", size: 20))
+                        .foregroundStyle(.secondary)
                 }
                 .frame(maxWidth: .infinity, alignment: .center)
                 .listRowSeparator(.hidden)
@@ -64,62 +67,24 @@ struct MyListDetailView: View {
                 Spacer()
                 
                 Text(myListItem.overview)
-                //                    .lineLimit(showEntireContent ? nil : lineLimit)
                     .listRowSeparator(.hidden)
-                
-                //                if !showEntireContent {
-                //                    Button {
-                //                        withAnimation {
-                //                            showEntireContent = true
-                //                        }
-                //                    } label: {
-                //                        Text("Expand description")
-                //                            .foregroundStyle(.blue)
-                //                    }
-                //                }
+                    .font(.custom("BebasNeue", size: 20)).opacity(0.75)
                 
                 Spacer()
                 
                 VStack(alignment: .leading) {
                     Text("Review")
-                        .font(.headline)
+                        .font(.custom("BebasNeue", size: 20))
+                        .foregroundStyle(.red)
                     TextField("Enter Review", text: $reviews, axis: .vertical)
                 }
                 
-                Spacer()
-                
-                
-                
-                .listStyle(.plain)
-                .onAppear() {
-                    reviews = myListItem.reviews
-                    thumbsUp = myListItem.thumbsUp
-                    thumbsDown = myListItem.thumbsDown
-                }
-                .toolbar {
-                    ToolbarItem(placement: .topBarLeading) {
-                        Button("Back") {
-                            dismiss()
-                        }
+                    .listStyle(.plain)
+                    .onAppear() {
+                        reviews = myListItem.reviews
+                        thumbsUp = myListItem.thumbsUp
+                        thumbsDown = myListItem.thumbsDown
                     }
-                    
-//                    ToolbarItem(placement: .topBarTrailing) {
-//                        Button {
-//                            myListItem.reviews = reviews
-//                            myListItem.thumbsUp = thumbsUp
-//                            myListItem.thumbsDown = thumbsDown
-//                            
-//                            guard let _ = try? modelContext.save() else {
-//                                print("ERROR: Save did not work.")
-//                                return
-//                            }
-//                            dismiss()
-//                        } label: {
-//                            Text("Save")
-//                        }
-//                        
-//                    }
-                }
             }
             .listStyle(.plain)
             .padding(.horizontal)
@@ -152,6 +117,6 @@ struct MyListDetailView: View {
 
 #Preview {
     NavigationStack {
-        MyListDetailView(myListItem: MyList(original_title: "", overview: "", poster_path: "", backdrop_path: "", original_language: "", release_date: "", reviews: "", thumbsUp: false, thumbsDown: false))
+        MyListDetailView(myListItem: MyList(original_title: "Sing", overview: "Singing Animals", poster_path: "", backdrop_path: "", original_language: "", release_date: "2024-01-01", reviews: "", thumbsUp: false, thumbsDown: false))
     }
 }
