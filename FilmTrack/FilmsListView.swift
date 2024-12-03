@@ -15,26 +15,20 @@ struct FilmsListView: View {
     @State private var isExploreSheetPresented = false
     @State private var isMyListSheetPresented = false
     @Environment(\.dismiss) var dismiss
+    @FocusState private var isFocused: Bool
     @State private var selectedFilm: Film? = nil
     @State private var translatedTitle = ""
-    @FocusState private var isFocused: Bool
     @State private var showTranslationMessage = false
+    @State private var isTranslateButtonPressed = false
+    private let translationMessage = "Click film title to translate."
     
     @State private var searchTask: Task<Void, Never>? = nil
     
     var body: some View {
         NavigationStack {
             VStack {
-                if showTranslationMessage {
-                    HStack {
-                        Image(systemName: "questionmark.circle")
-                        Text("CLICK FILM TITLE TO TRANSLATE")
-                            .font(.custom("BebasNeue", size: 15))
-                    }
-                    .transition(.opacity)
-                }
                 HStack {
-                    TextField("Enter title...", text: $searchText)
+                    TextField("Enter film title...", text: $searchText)
                         .font(.custom("BebasNeue", size: 20))
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.horizontal)
@@ -70,10 +64,12 @@ struct FilmsListView: View {
                                 .font(.custom("BebasNeue", size: 20))
                                 .multilineTextAlignment(.center)
                                 .onTapGesture {
-                                    selectedFilm = film
+                                    if isTranslateButtonPressed {
+                                        selectedFilm = film
+                                    }
                                 }
                                 .translationPresentation(
-                                    isPresented: .constant(selectedFilm == film),
+                                    isPresented: .constant( selectedFilm == film),
                                     text: film.original_title)
                             
                             Spacer().frame(height: 10)
@@ -83,7 +79,6 @@ struct FilmsListView: View {
                     }
                 }
                 .listStyle(.plain)
-                //                .navigationTitle("Search Films")
                 .fullScreenCover(isPresented: $isExploreSheetPresented) {
                     ExploreView()
                 }
@@ -92,8 +87,8 @@ struct FilmsListView: View {
                 }
                 .toolbar {
                     ToolbarItem(placement: .principal) {
-                        Text("Search Films")
-                            .font(.custom("BebasNeue", size: 50))
+                        Text("FilmTrack")
+                            .font(.custom("BebasNeue", size: 40))
                             .foregroundStyle(.red)
                     }
                     
@@ -114,22 +109,20 @@ struct FilmsListView: View {
                         Button {
                             showTranslationMessage.toggle()
                             
-                            Task {
-                                try await Task.sleep(nanoseconds: 3 * 1_000_000_000)
-                                showTranslationMessage = false
-                            }
+                            isTranslateButtonPressed.toggle()
                         } label: {
-                            Text("Translate")
+                            Text(isTranslateButtonPressed ? "Translate: On" : "Translate: Off")
                         }
                         .foregroundStyle(.red)
                     }
                     
                 }
                 
-                
                 .onAppear {
-                    Task {
-                        await films.getData(for: "")
+                    if films.filmsArray.isEmpty && searchText.isEmpty {
+                        Task {
+                            await films.getData(for: "")
+                        }
                     }
                 }
                 
@@ -148,6 +141,12 @@ struct FilmsListView: View {
                 .foregroundStyle(.red)
             }
         }
+        .alert(translationMessage, isPresented: $showTranslationMessage) {
+            Button("Ok", role: .cancel) {
+                showTranslationMessage.toggle()
+            }
+        }
+        
         .autocorrectionDisabled()
         .font(.custom("BebasNeue", size: 20))
     }

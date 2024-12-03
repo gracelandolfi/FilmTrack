@@ -34,7 +34,7 @@ class MyList {
     }
     
     convenience init() {
-        self.init(original_title: "Moana", overview: "Oceania's most beloved sea creature, Moana, embarks on a journey of self-discovery and learns to embrace her true self.", poster_path: "/ys0jZr0quHERDUEoCboGQEKPvgQ.jpg", backdrop_path: "", original_language: "en", release_date: "", reviews: "", thumbsUp: false, thumbsDown: false)
+        self.init(original_title: "", overview: "", poster_path: "", backdrop_path: "", original_language: "en", release_date: "", reviews: "", thumbsUp: false, thumbsDown: false)
     }
 }
 

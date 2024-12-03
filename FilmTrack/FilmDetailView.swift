@@ -15,41 +15,49 @@ struct FilmDetailView: View {
     
     var body: some View {
         NavigationStack {
-            
-            Text(film.original_title)
-                .font(.largeTitle)
-                .bold()
-                .minimumScaleFactor(0.5)
-            
-            Text(film.release_date)
-            
-            Spacer()
-            
-            
-            AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/original/\(film.poster_path ?? "")")) { image in
-                image
-                    .resizable()
-                    .scaledToFit()
-                    .frame(width: 300, height: 300)
-            } placeholder: {
-                ProgressView()
+            ScrollView {
+                VStack(alignment: .center, spacing: 10) {
+                    Text(film.original_title)
+                        .font(.custom("BebasNeue", size: 50))
+                        .foregroundStyle(.red)
+                        .minimumScaleFactor(0.5)
+                    
+                    Text(film.release_date)
+                        .font(.custom("BebasNeue", size: 30))
+                    
+                    Spacer()
+                    
+                    
+                    AsyncImage(url: URL(string: "https://image.tmdb.org/t/p/original/\(film.poster_path ?? "")")) { image in
+                        image
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 300, height: 300)
+                    } placeholder: {
+                        ProgressView()
+                    }
+                    
+                    Spacer()
+                    
+                    Text(film.overview)
+                        .font(.title2)
+                        .padding()
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button {
+                                    addToMyList()
+                                } label: {
+                                    Image(systemName: "plus")
+                                    Text("Add to My List")
+                                }
+                                .foregroundStyle(.red)
+                                .font(.custom("BebasNeue", size: 20))
+                            }
+                        }
+                }
             }
             
-            Spacer()
             
-            Text(film.overview)
-                .padding()
-                .toolbar {
-                    ToolbarItem(placement: .topBarTrailing) {
-                        Button {
-                            addToMyList()
-                        } label: {
-                            Image(systemName: "plus")
-                            Text("Add to My List")
-                        }
-                        
-                    }
-                }
         }
     }
     
@@ -67,5 +75,5 @@ struct FilmDetailView: View {
 }
 
 #Preview {
-    FilmDetailView(film: Film(original_title: "Test", overview: "Test", original_language: "Test", release_date: "Test"))
+    FilmDetailView(film: Film(original_title: "Moana", overview: "In Ancient Polynesia, when a terrible curse incurred by Maui reaches the island of an impetuous Chieftain, his willful daughter answers the Ocean's call to seek out the demigod to set things right.  Live-action adaptation of the 2016 Disney animated film 'Moana'", poster_path: "/ys0jZr0quHERDUEoCboGQEKPvgQ.jpg", original_language: "en", release_date: "2026-07-09"))
 }

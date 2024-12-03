@@ -11,6 +11,11 @@ struct ExploreView: View {
     @State var topRatedFilms = TopRatedFilms()
     @State private var rank = 1
     @Environment(\.dismiss) var dismiss
+    @State private var selectedFilm: Film? = nil
+    @State private var translatedTitle = ""
+    @State private var showTranslationMessage = false
+    @State private var isTranslateButtonPressed = false
+    private let translationMessage = "Click film title to translate."
     
     var body: some View {
         NavigationStack {
@@ -22,6 +27,14 @@ struct ExploreView: View {
                         Text(film.original_title)
                             .font(.custom("BebasNeue", size: 20))
                             .multilineTextAlignment(.center)
+                            .onTapGesture {
+                                if isTranslateButtonPressed {
+                                    selectedFilm = film.asFilm
+                                }
+                            }
+                            .translationPresentation(
+                                isPresented: .constant( selectedFilm == film.asFilm),
+                                text: film.original_title)
                         
                         Spacer().frame(height: 10)
                     }
@@ -36,12 +49,6 @@ struct ExploreView: View {
             
             .listStyle(.plain)
             .toolbar {
-                ToolbarItem(placement: .principal) {
-                    Text("Explore Popular Films")
-                        .font(.custom("BebasNeue", size: 30))
-                        .foregroundStyle(.red)
-                }
-                
                 ToolbarItem(placement: .bottomBar) {
                     Button("Load All Popular Films") {
                         Task {
@@ -57,6 +64,23 @@ struct ExploreView: View {
                     }
                     .foregroundStyle(.red)
                 }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button {
+                        showTranslationMessage.toggle()
+                        
+                        isTranslateButtonPressed.toggle()
+                    } label: {
+                        Text(isTranslateButtonPressed ? "Translate: On" : "Translate: Off")
+                    }
+                    .foregroundStyle(.red)
+                }
+            }
+            .navigationTitle("Explore Popular Films")
+        }
+        .alert(translationMessage, isPresented: $showTranslationMessage) {
+            Button("Ok", role: .cancel) {
+                showTranslationMessage.toggle()
             }
         }
     }
