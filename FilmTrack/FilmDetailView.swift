@@ -18,6 +18,7 @@ struct FilmDetailView: View {
             ScrollView {
                 VStack(alignment: .center, spacing: 10) {
                     Text(film.original_title)
+                        .multilineTextAlignment(.center)
                         .font(.custom("BebasNeue", size: 50))
                         .foregroundStyle(.red)
                         .minimumScaleFactor(0.5)
@@ -43,6 +44,15 @@ struct FilmDetailView: View {
                         .font(.title2)
                         .padding()
                         .toolbar {
+                            ToolbarItem(placement: .topBarLeading) {
+                                Button("Film Search") {
+                                    dismiss()
+                                }
+                                .foregroundStyle(.red)
+                                .font(.custom("BebasNeue", size: 20))
+                            }
+                            
+                        
                             ToolbarItem(placement: .topBarTrailing) {
                                 Button {
                                     addToMyList()
@@ -56,13 +66,12 @@ struct FilmDetailView: View {
                         }
                 }
             }
-            
-            
+            .navigationBarBackButtonHidden()
         }
     }
     
     func addToMyList() {
-        let myListItem = MyList(original_title: film.original_title, overview: film.overview, poster_path: film.poster_path ?? "", backdrop_path: film.backdrop_path ?? "", original_language: film.release_date, release_date: film.original_language, reviews: "")
+        let myListItem = MyList(original_title: film.original_title, overview: film.overview, poster_path: film.poster_path ?? "", release_date: film.release_date, reviews: "")
         
         modelContext.insert(myListItem)
         
@@ -75,5 +84,5 @@ struct FilmDetailView: View {
 }
 
 #Preview {
-    FilmDetailView(film: Film(original_title: "Moana", overview: "In Ancient Polynesia, when a terrible curse incurred by Maui reaches the island of an impetuous Chieftain, his willful daughter answers the Ocean's call to seek out the demigod to set things right.  Live-action adaptation of the 2016 Disney animated film 'Moana'", poster_path: "/ys0jZr0quHERDUEoCboGQEKPvgQ.jpg", original_language: "en", release_date: "2026-07-09"))
+    FilmDetailView(film: Film(original_title: "Moana", overview: "In Ancient Polynesia, when a terrible curse incurred by Maui reaches the island of an impetuous Chieftain, his willful daughter answers the Ocean's call to seek out the demigod to set things right.  Live-action adaptation of the 2016 Disney animated film 'Moana'", release_date: "2026-07-09"))
 }

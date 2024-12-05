@@ -117,6 +117,6 @@ struct MyListDetailView: View {
 
 #Preview {
     NavigationStack {
-        MyListDetailView(myListItem: MyList(original_title: "Moana", overview: "In Ancient Polynesia, when a terrible curse incurred by Maui reaches the island of an impetuous Chieftain, his willful daughter answers the Ocean's call to seek out the demigod to set things right.  Live-action adaptation of the 2016 Disney animated film 'Moana'", poster_path: "/ys0jZr0quHERDUEoCboGQEKPvgQ.jpg", backdrop_path: "", original_language: "", release_date: "2026-07-09", reviews: "", thumbsUp: false, thumbsDown: false))
+        MyListDetailView(myListItem: MyList(original_title: "Moana", overview: "In Ancient Polynesia, when a terrible curse incurred by Maui reaches the island of an impetuous Chieftain, his willful daughter answers the Ocean's call to seek out the demigod to set things right.  Live-action adaptation of the 2016 Disney animated film 'Moana'", poster_path: "/ys0jZr0quHERDUEoCboGQEKPvgQ.jpg", release_date: "2026-07-09", reviews: "", thumbsUp: false, thumbsDown: false))
     }
 }

@@ -1,5 +1,5 @@
 //
-//  Films.swift
+//  FilmsViewModel.swift
 //  FilmTrack
 //
 //  Created by Grace Landolfi on 11/28/24.
@@ -9,8 +9,8 @@ import Foundation
 
 @Observable
 
-class Films {
-    private struct Returned: Codable {
+class FilmsViewModel {
+    struct Returned: Codable {
         var results: [Film]
     }
     

@@ -44,7 +44,7 @@ struct SortedMyListView: View {
                             HStack {
                                 Text(film.original_title)
                                     .font(.custom("BebasNeue", size: 20)).opacity(0.75)
-                                    
+                                
                                 
                                 Spacer()
                                 

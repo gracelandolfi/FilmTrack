@@ -24,7 +24,7 @@ struct LoginView: View {
     
     var body: some View {
         VStack {
-            Image("circle.fill")
+            Image("logo")
                 .resizable()
                 .scaledToFit()
             
@@ -71,7 +71,8 @@ struct LoginView: View {
                 .padding(.trailing)
             }
             .buttonStyle(.borderedProminent)
-            .font(.title2)
+            .tint(.red)
+            .font(.custom("BebasNeue", size: 20))
             .padding(.top)
             .disabled(buttonDisabled)
             

@@ -10,7 +10,7 @@ import FirebaseAuth
 import Translation
 
 struct FilmsListView: View {
-    @State var films = Films()
+    @State var films = FilmsViewModel()
     @State var searchText = ""
     @State private var isExploreSheetPresented = false
     @State private var isMyListSheetPresented = false
@@ -53,16 +53,15 @@ struct FilmsListView: View {
                             }
                         }
                 }
-                
-                
+            
                 List(films.filmsArray, id: \.self) {film in
                     NavigationLink {
                         FilmDetailView(film: film)
                     } label: {
                         VStack {
                             Text(film.original_title)
-                                .font(.custom("BebasNeue", size: 20))
                                 .multilineTextAlignment(.center)
+                                .font(.custom("BebasNeue", size: 20))
                                 .onTapGesture {
                                     if isTranslateButtonPressed {
                                         selectedFilm = film
@@ -126,8 +125,6 @@ struct FilmsListView: View {
                     }
                 }
                 
-                
-                
                 HStack {
                     Button("Explore Popular Films") {
                         isExploreSheetPresented.toggle()
@@ -141,6 +138,7 @@ struct FilmsListView: View {
                 .foregroundStyle(.red)
             }
         }
+        
         .alert(translationMessage, isPresented: $showTranslationMessage) {
             Button("Ok", role: .cancel) {
                 showTranslationMessage.toggle()
@@ -153,6 +151,6 @@ struct FilmsListView: View {
 }
 
 #Preview {
-    FilmsListView()
-        .modelContainer(MyList.preview)
+        FilmsListView()
+            .modelContainer(MyList.preview)
 }

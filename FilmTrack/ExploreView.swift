@@ -84,7 +84,6 @@ struct ExploreView: View {
             }
         }
     }
-
 }
 
 #Preview {
