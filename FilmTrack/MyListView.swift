@@ -77,6 +77,7 @@ struct SortedMyListView: View {
                         dismiss()
                     }
                     .foregroundStyle(.red)
+                    .font(.custom("BebasNeue", size: 20))
                 }
             }
         }
