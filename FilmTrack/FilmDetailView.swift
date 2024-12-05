@@ -23,8 +23,9 @@ struct FilmDetailView: View {
                         .foregroundStyle(.red)
                         .minimumScaleFactor(0.5)
                     
-                    Text(film.release_date)
+                    Text(formatReleaseDate(releaseDate: film.release_date))
                         .font(.custom("BebasNeue", size: 30))
+                        .foregroundStyle(.red).opacity(0.75)
                     
                     Spacer()
                     

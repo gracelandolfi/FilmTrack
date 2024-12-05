@@ -23,6 +23,7 @@
 		F717B76D2D01468100C4199F /* TopRatedFilms.swift in Sources */ = {isa = PBXBuildFile; fileRef = F717B75E2D01468100C4199F /* TopRatedFilms.swift */; };
 		F717B7702D01470800C4199F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = F717B76F2D01470800C4199F /* FirebaseAuth */; };
 		F717B7742D01477700C4199F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F717B7732D01477700C4199F /* GoogleService-Info.plist */; };
+		F7F1A6D12D021B23002D243D /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F7F1A6D02D021B23002D243D /* DateFormatter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +44,7 @@
 		F717B7732D01477700C4199F /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		F745A9D72CF8384C0098AC6A /* FilmTrack.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FilmTrack.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F7C457622D0153240008FE0F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		F7F1A6D02D021B23002D243D /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -83,6 +85,7 @@
 				F717B75C2D01468100C4199F /* MyListView.swift */,
 				F717B75B2D01468100C4199F /* MyListDetailView.swift */,
 				F717B75A2D01468100C4199F /* MyList.swift */,
+				F7F1A6D02D021B23002D243D /* DateFormatter.swift */,
 				F717B7732D01477700C4199F /* GoogleService-Info.plist */,
 			);
 			path = FilmTrack;
@@ -186,6 +189,7 @@
 				F717B7632D01468100C4199F /* Film.swift in Sources */,
 				F717B7642D01468100C4199F /* FilmDetailView.swift in Sources */,
 				F717B7652D01468100C4199F /* FilmsListView.swift in Sources */,
+				F7F1A6D12D021B23002D243D /* DateFormatter.swift in Sources */,
 				F717B7662D01468100C4199F /* FilmsViewModel.swift in Sources */,
 				F717B7672D01468100C4199F /* FilmTrackApp.swift in Sources */,
 				F717B7682D01468100C4199F /* LoginView.swift in Sources */,

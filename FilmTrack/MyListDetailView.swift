@@ -48,8 +48,9 @@ struct MyListDetailView: View {
                             .foregroundStyle(.red)
                             .minimumScaleFactor(0.5)
                         
-                        Text(myListItem.release_date)
+                        Text(formatReleaseDate(releaseDate: myListItem.release_date))
                             .font(.custom("BebasNeue", size: 30))
+                            .foregroundStyle(.red).opacity(0.75)
                         
                     }
                     .frame(maxWidth: .infinity, alignment: .center)
