@@ -126,7 +126,7 @@ struct FilmsListView: View {
                 }
                 
                 HStack {
-                    Button("Explore Popular Films") {
+                    Button("Top Rated Films") {
                         isExploreSheetPresented.toggle()
                     }
                     
