@@ -79,7 +79,7 @@ struct FilmsListView: View {
                 }
                 .listStyle(.plain)
                 .fullScreenCover(isPresented: $isExploreSheetPresented) {
-                    ExploreView()
+                    MovieListsView()
                 }
                 .fullScreenCover(isPresented: $isMyListSheetPresented) {
                     MyListView()
@@ -126,7 +126,7 @@ struct FilmsListView: View {
                 }
                 
                 HStack {
-                    Button("Top Rated Films") {
+                    Button("Explore Films") {
                         isExploreSheetPresented.toggle()
                     }
                     

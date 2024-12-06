@@ -1,26 +1,30 @@
 //
-//  TopRatedFilms.swift
+//  MovieLists.swift
 //  FilmTrack
 //
-//  Created by Grace Landolfi on 11/28/24.
+//  Created by Grace Landolfi on 12/6/24.
 //
 
 import Foundation
 
 @Observable
 
-class TopRatedFilms {
+class MovieLists {
     private struct Returned: Codable {
-        var results: [TopRatedFilm]
+        var results: [Film]
         var page: Int
         var total_pages: Int
     }
     var isLoading = false
     var page = 1
     var pageSize = 20
-    var urlString = "https://api.themoviedb.org/3/movie/top_rated?api_key=c3cbb4185fe214b22ed53f597f3b5e5a&page="
+    var urlString: String
     
-    var topRatedFilmsArray: [TopRatedFilm] = []
+    var movieListFilmsArray: [Film] = []
+    
+    init(category: MovieList) {
+            self.urlString = "https://api.themoviedb.org/3/movie/\(category.rawValue)?api_key=c3cbb4185fe214b22ed53f597f3b5e5a&page="
+        }
     
     func getData(for page: Int) async {
         guard page != 0 else { return }
@@ -49,7 +53,7 @@ class TopRatedFilms {
                 return
             }
             
-            topRatedFilmsArray.append(contentsOf: returned.results)
+            movieListFilmsArray.append(contentsOf: returned.results)
             isLoading = false
             
             if returned.page >= returned.total_pages {
