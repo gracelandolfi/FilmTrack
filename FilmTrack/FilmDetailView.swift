@@ -53,7 +53,7 @@ struct FilmDetailView: View {
                                 .font(.custom("BebasNeue", size: 20))
                             }
                             
-                        
+                            
                             ToolbarItem(placement: .topBarTrailing) {
                                 Button {
                                     addToMyList()

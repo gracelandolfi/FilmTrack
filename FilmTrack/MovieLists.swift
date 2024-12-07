@@ -23,8 +23,8 @@ class MovieLists {
     var movieListFilmsArray: [Film] = []
     
     init(category: MovieList) {
-            self.urlString = "https://api.themoviedb.org/3/movie/\(category.rawValue)?api_key=c3cbb4185fe214b22ed53f597f3b5e5a&page="
-        }
+        self.urlString = "https://api.themoviedb.org/3/movie/\(category.rawValue)?api_key=c3cbb4185fe214b22ed53f597f3b5e5a&page="
+    }
     
     func getData(for page: Int) async {
         guard page != 0 else { return }

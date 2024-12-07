@@ -45,7 +45,6 @@ struct SortedMyListView: View {
                                 Text(film.original_title)
                                     .font(.custom("BebasNeue", size: 20)).opacity(0.75)
                                 
-                                
                                 Spacer()
                                 
                                 if film.thumbsUp {
@@ -67,7 +66,6 @@ struct SortedMyListView: View {
                             }
                         }
                     }
-                    
                 }
             }
             .listStyle(.plain)

@@ -21,7 +21,6 @@ class FilmsViewModel {
         let urlWithSearch = urlString + searchValue
         print("We are accessing the url \(urlWithSearch)")
         
-        //Create a URL
         guard let url = URL(string: urlWithSearch) else {
             print("ERROR: Could not create a URL from \(urlWithSearch)")
             return

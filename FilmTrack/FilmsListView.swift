@@ -53,7 +53,7 @@ struct FilmsListView: View {
                             }
                         }
                 }
-            
+                
                 List(films.filmsArray, id: \.self) {film in
                     NavigationLink {
                         FilmDetailView(film: film)
@@ -151,6 +151,6 @@ struct FilmsListView: View {
 }
 
 #Preview {
-        FilmsListView()
-            .modelContainer(MyList.preview)
+    FilmsListView()
+        .modelContainer(MyList.preview)
 }
